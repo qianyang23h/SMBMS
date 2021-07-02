@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserServiceImpl implements UserService{
 
@@ -53,14 +54,47 @@ public class UserServiceImpl implements UserService{
         return flag;
     }
 
+    //
+
+
+    @Override
+    // 查询记录数
+    public int getUserCount(String username, int userRole) {
+        Connection connection = null;
+        int count = 0;
+        try {
+            connection = BaseDao.getConnection();
+            count = userDao.getUserCount(connection, username, userRole);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            BaseDao.release(connection, null, null);
+        }
+        return count;
+    }
+
+    @Override
+    public List<User> getUserList(String username, int userRole, int currentPageNo, int pageSize) {
+        Connection connection = null;
+        List<User> userList = null;
+
+        try {
+            connection = BaseDao.getConnection();
+            userList = userDao.getUserList(connection, username, userRole, currentPageNo, pageSize);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            BaseDao.release(connection, null, null);
+        }
+        return userList;
+    }
+
     @Test
     // 使用junit做测试
     public void test(){
         UserServiceImpl userService = new UserServiceImpl();
-//        User user = userService.login("admin", "123456");
-        boolean flag = userService.updatePwd(15, "123123123");
-        System.out.println("flag:" + flag);
-
-
+        List<User> userList = userService.getUserList("", 0, 1, 5);
+        System.out.println(userList.size());
     }
 }

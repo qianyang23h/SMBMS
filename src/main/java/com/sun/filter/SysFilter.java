@@ -25,7 +25,10 @@ public class SysFilter implements Filter {
         if(user == null) {  // 已经被移除或者注销了
             resp.sendRedirect("/SMBMS/error.jsp");
         }
-        chain.doFilter(request,response);
+        else {
+            chain.doFilter(request,response);  //让我们的请求继续走，如果不写，程序到这里就被拦截停止！
+        }
+
     }
 
     @Override

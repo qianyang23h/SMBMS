@@ -17,6 +17,15 @@ public class User {
     private Integer modifyBy;  // 更新事件
     private Date modifyDate;  // 更新事件
 
+    private String userRoleName;    //用户角色名称
+
+    public String getUserRoleName() {
+        return userRoleName;
+    }
+
+    public void setUserRoleName(String userRoleName) {
+        this.userRoleName = userRoleName;
+    }
 
     public Integer getId() {
         return id;
