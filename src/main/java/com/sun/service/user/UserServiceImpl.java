@@ -18,6 +18,8 @@ public class UserServiceImpl implements UserService{
         userDao = new UserDaoImpl();
     }
 
+
+    // 用户登陆
     @Override
     public User login(String userCode, String password) {
         Connection connection = null;
@@ -35,6 +37,8 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
+
+    // 修改密码
     @Override
     public boolean updatePwd(int id, String password) {
         Connection connection = null;
@@ -54,11 +58,42 @@ public class UserServiceImpl implements UserService{
         return flag;
     }
 
-    //
 
-
+    // 增加用户
     @Override
+    public boolean add(User user) {
+        Connection connection = null;
+        boolean flag = false;
+
+        try {
+            connection = BaseDao.getConnection();
+            connection.setAutoCommit(false);   //关闭自动事务提交  手动提交
+            int updateRows = userDao.add(connection, user);
+            connection.commit();  // 手动提交事务
+            if (updateRows > 0) {
+                flag = true;
+                System.out.println("add success!");
+            }
+            else {
+                System.out.println("add failed!");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            //如果失败则回滚
+            try {
+                System.out.println("rollback==================");
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } finally {
+            BaseDao.release(connection, null, null);
+        }
+        return flag;
+    }
+
     // 查询记录数
+    @Override
     public int getUserCount(String username, int userRole) {
         Connection connection = null;
         int count = 0;
@@ -73,6 +108,7 @@ public class UserServiceImpl implements UserService{
         return count;
     }
 
+    // 获取用户列表
     @Override
     public List<User> getUserList(String username, int userRole, int currentPageNo, int pageSize) {
         Connection connection = null;

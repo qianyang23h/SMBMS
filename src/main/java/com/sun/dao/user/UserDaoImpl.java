@@ -121,7 +121,7 @@ public class UserDaoImpl implements UserDao{
             }
 
             if (userRole > 0) {
-                sql.append(" and u.useRole = ?");
+                sql.append(" and u.userRole = ?");
                 paramList.add(userRole);
             }
 
@@ -155,6 +155,24 @@ public class UserDaoImpl implements UserDao{
         }
 
         return userList;
+    }
+
+
+    @Override
+    public int add(Connection connection, User user) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        int updateRows = 0;
+
+        if(connection != null){
+           String sql = "insert into smbms_user (userCode,userName,userPassword," +
+                   "userRole,gender,birthday,phone,address,creationDate,createdBy) " +
+                   "values(?,?,?,?,?,?,?,?,?,?)";
+            Object[] params = {user.getUserCode(), user.getUserName(), user.getUserPassword(),
+                    user.getUserRole(), user.getGender(), user.getBirthday(),
+                    user.getPhone(), user.getAddress(), user.getCreationDate(), user.getCreatedBy()};
+            updateRows = BaseDao.execute(connection, preparedStatement, sql, params);
+        }
+        return updateRows;
     }
 
     @Test

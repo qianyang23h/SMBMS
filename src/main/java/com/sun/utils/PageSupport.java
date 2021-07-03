@@ -4,7 +4,7 @@ public class PageSupport {
     //当前页码-来自于用户输入
     private int currentPageNo = 1;
 
-    //总数量（表）
+    //表中记录总数量
     private int totalCount = 0;
 
     //页面容量

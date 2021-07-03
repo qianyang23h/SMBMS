@@ -17,7 +17,21 @@ public class User {
     private Integer modifyBy;  // 更新事件
     private Date modifyDate;  // 更新事件
 
+    private Integer age;//年龄
+
     private String userRoleName;    //用户角色名称
+
+    public Integer getAge() {
+        /*long time = System.currentTimeMillis()-birthday.getTime();
+		Integer age = Long.valueOf(time/365/24/60/60/1000).IntegerValue();*/
+        Date date = new Date();
+        Integer age = date.getYear() - birthday.getYear();
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
     public String getUserRoleName() {
         return userRoleName;

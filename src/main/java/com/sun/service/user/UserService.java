@@ -20,4 +20,8 @@ public interface UserService {
 
     // 通过条件查询-userList
     public List<User> getUserList(String username, int userRole, int currentPageNo, int pageSize);
+
+    // 添加用户
+    public boolean add(User user);
+
 }
