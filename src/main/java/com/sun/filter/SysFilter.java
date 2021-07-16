@@ -23,12 +23,10 @@ public class SysFilter implements Filter {
         // 过滤器， 从session中获取用户
         User user = (User) req.getSession().getAttribute(Constants.USER_SESSION);
         if(user == null) {  // 已经被移除或者注销了
+            System.out.println("已经被移除或者注销了");
             resp.sendRedirect("/SMBMS/error.jsp");
         }
-        else {
-            chain.doFilter(request,response);  //让我们的请求继续走，如果不写，程序到这里就被拦截停止！
-        }
-
+        chain.doFilter(request,response);//让我们的请求继续走，如果不写，程序到这里就被拦截停止！
     }
 
     @Override
